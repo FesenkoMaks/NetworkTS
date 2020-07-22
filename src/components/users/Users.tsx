@@ -1,18 +1,28 @@
 import React from "react";
 import s from "./Users.module.css"
-import {UsersType} from "../../redux/Users-reducer";
+import {
+    followUser,
+    setCurrentPage,
+    setIsFetching,
+    setUsersTotalCount,
+    unFollowUser,
+    UsersType
+} from "../../redux/Users-reducer";
 
 import Avatar from '../../assets/images/defaultAvatar.png'
+import preload from '../../assets/images/preloader.gif'
 
 type PropsType = {
     users: Array<UsersType>,
     totalUserCount: number,
     pageSize: number,
     currentPage: number,
-    follow: (userId: number) => void,
-    unfollow: (userId: number) => void,
-    onPageChanged: (p:number)=> void
+    followUser: (userId: number) => void,
+    unFollowUser: (userId: number) => void,
+    onPageChanged: (p:number)=> void,
+    isFetching: boolean
 }
+
 
 
 
@@ -26,6 +36,7 @@ type PropsType = {
 
         return (
             <div className={s.container}>
+                <div>{props.isFetching ? <img src={preload}/> : null}</div>
                 <div>
                     {pages.map(p =>{
                         if (p-5 < props.currentPage ){
@@ -45,13 +56,13 @@ type PropsType = {
                                         className={u.followed
                                             ? s.buttonFollow
                                             : s.buttonUnFollow}
-                                        onClick={() => props.follow(u.id)}
+                                        onClick={() => props.followUser(u.id)}
                                     >Follow</button>
                                     : <button
                                         className={u.followed
                                             ? s.buttonFollow
                                             : s.buttonUnFollow}
-                                        onClick={() => props.unfollow(u.id)}
+                                        onClick={() => props.unFollowUser(u.id)}
                                     >UnFollow</button>}
                                 </div>
                             </div>
