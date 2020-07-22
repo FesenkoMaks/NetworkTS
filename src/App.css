@@ -1,0 +1,15 @@
+.AppWrapper {
+  display: grid;
+  grid-template-areas:
+"header header"
+"nav profile";
+  grid-template-columns: 2fr 8fr;
+  width: 60%;
+  margin: 0 20%;
+  /*padding: 20px;*/
+}
+
+
+
+
+

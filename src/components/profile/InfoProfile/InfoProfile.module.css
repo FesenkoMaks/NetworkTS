@@ -1,0 +1,20 @@
+.container {
+    display: grid;
+    grid-template-areas:
+    "ava infa";
+    grid-template-columns: 1fr 4fr;
+
+}
+
+.container img{
+    grid-area: ava ;
+    width: 150px;
+    height: 150px;
+}
+
+.infa{
+    grid-area: infa;
+    width: 100%;
+    padding: 15px;
+    color: #000066;
+}

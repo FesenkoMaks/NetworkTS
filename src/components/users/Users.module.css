@@ -1,0 +1,64 @@
+.container {
+
+    margin: 10px;
+}
+
+.selectedPage {
+    font-weight: bold;
+}
+
+.userItem img {
+    margin: 10px;
+    border-radius: 50px;
+    width: 100px;
+}
+
+.userItem {
+    min-height: 150px;
+    position: relative;
+    display: flex;
+    border: 1px solid cornflowerblue;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+}
+
+.userItem .buttonFollow {
+    width: 80px;
+    height: 30px;
+    background: #118888;
+    color: white;
+    border: 1px solid #118888;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.userItem .buttonUnFollow {
+    width: 80px;
+    height: 30px;
+    background: darkgrey;
+    color: white;
+    border: 1px solid darkgrey;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.fullName {
+    margin: 10px 10px 0 10px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #118888;
+}
+
+.status {
+    margin: 0 10px 0 10px;
+    color: #000066;
+    font-size: 15px;
+}
+
+.location {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: #000066;
+}

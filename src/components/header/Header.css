@@ -1,0 +1,27 @@
+
+header  {
+    grid-area: header;
+    background: #188;
+    height: 40px;
+    margin: 1px;
+
+}
+
+header img{
+    width: 35px;
+    border-radius: 10px;
+}
+
+.container {
+    margin: 0 20%;
+
+}
+
+.container span {
+    margin-bottom: 25px;
+    padding: 20px;
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: bold;
+}
+
