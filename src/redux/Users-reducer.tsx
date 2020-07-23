@@ -35,26 +35,26 @@ export const usersReducer = (state: any = internalState, action: any) => {
             return {
 
                 ...state,
-                users: state.users.map((u: UsersType) => {
-                        if (u.id === action.userId) {
-                            return {...u, followed: false}
-                        } else {
-                            return u
-                        }
-                    }
-                )
-            }
-        case UNFOLLOW:
-            return {
-                ...state,
-                users: state.users.map((u: UsersType) => {
+                users: [...state.users.map((u: UsersType) => {
                         if (u.id === action.userId) {
                             return {...u, followed: true}
                         } else {
                             return u
                         }
                     }
-                )
+                )]
+            }
+        case UNFOLLOW:
+            return {
+                ...state,
+                users: [...state.users.map((u: UsersType) => {
+                        if (u.id === action.userId) {
+                            return {...u, followed: false}
+                        } else {
+                            return u
+                        }
+                    }
+                )]
             }
         case SET_USERS:
             return {...state, users: action.users}
