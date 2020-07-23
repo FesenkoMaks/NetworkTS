@@ -1,7 +1,7 @@
 import {PostDataTypes, PostType} from "./store";
 import React from "react";
 
-type PhotosType = {
+export type PhotosType = {
     small: string | undefined
     large: string | undefined
 }

@@ -11,6 +11,8 @@ import {
 
 import Avatar from '../../assets/images/defaultAvatar.png'
 import preload from '../../assets/images/preloader.gif'
+import {NavLink} from "react-router-dom";
+import Preloader from "../common/Preloader";
 
 type PropsType = {
     users: Array<UsersType>,
@@ -36,7 +38,7 @@ type PropsType = {
 
         return (
             <div className={s.container}>
-                <div>{props.isFetching ? <img src={preload}/> : null}</div>
+                <div>{props.isFetching ? <Preloader/> : null}</div>
                 <div>
                     {pages.map(p =>{
                         if (p-5 < props.currentPage ){
@@ -50,7 +52,9 @@ type PropsType = {
 
                         return <div key={u.id} className={s.userItem}>
                             <div>
+                                <NavLink to={'/profile/' + u.id}>
                                 <img src={u.photos.small != null ? u.photos.small : Avatar}/>
+                                </NavLink>
                                 <div >{u.followed
                                     ? <button
                                         className={u.followed

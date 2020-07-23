@@ -12,6 +12,7 @@ import {StoreType} from './redux/store';
 import DialogsContainer from "./components/dialogs/DialogsContainer";
 
 import UsersContainer from "./components/users/UsersContainer";
+import ProfileContainer from "./components/profile/ProfileContainer";
 
 
 type AppPropsType = {
@@ -33,7 +34,7 @@ function App() {
             <div className={'AppWrapperComponents'}>
                 <Route
                     path={'/profile'}
-                    render={() => <Profile/>}/>
+                    render={() => <ProfileContainer/>}/>
                 <Route
                     path={'/dialogs'}
                     render={() => <DialogsContainer/>}/>
