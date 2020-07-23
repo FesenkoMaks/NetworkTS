@@ -4,6 +4,7 @@ import * as axios from "axios";
 import {connect} from "react-redux";
 import {PhotosType} from "../../redux/Users-reducer";
 import {setProfile} from "../../redux/Profile-reducer";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 type ContactsType = {
     github: string | null
@@ -27,16 +28,24 @@ export type ProfileType = {
 
 }
 
+
+
 export type ProfileContainerPropsType = {
+
     profile: ProfileType
     setProfile: (profile: ProfileType) => void
 }
 
 
-class ProfileContainer extends React.Component<ProfileContainerPropsType> {
+class ProfileContainer extends React.Component<ProfileContainerPropsType & RouteComponentProps<{userId: any}>> {
     componentDidMount() {
 
-        axios.default.get(`https://social-network.samuraijs.com/api/1.0/profile/2`).then(res => {
+        let userId = this.props.match.params.userId
+        if (!userId) {
+           userId=2
+        }
+
+        axios.default.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId).then(res => {
 
             this.props.setProfile(res.data);
 
@@ -58,6 +67,7 @@ let mapStateToProps = (state: any) => {
     }
 }
 
+let WithRouterProfileContainer  = withRouter(ProfileContainer)
 
 export default connect(mapStateToProps,
-    {setProfile})(ProfileContainer)
+    {setProfile})(WithRouterProfileContainer)

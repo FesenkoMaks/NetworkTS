@@ -33,7 +33,7 @@ function App() {
             <Nav/>
             <div className={'AppWrapperComponents'}>
                 <Route
-                    path={'/profile'}
+                    path={'/profile/:userId?'}
                     render={() => <ProfileContainer/>}/>
                 <Route
                     path={'/dialogs'}
