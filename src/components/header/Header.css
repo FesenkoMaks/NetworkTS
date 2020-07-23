@@ -25,3 +25,11 @@ header img{
     font-weight: bold;
 }
 
+.login {
+    float: right;
+
+}
+
+.login a {
+    color: white;
+}

@@ -13,6 +13,7 @@ import DialogsContainer from "./components/dialogs/DialogsContainer";
 
 import UsersContainer from "./components/users/UsersContainer";
 import ProfileContainer from "./components/profile/ProfileContainer";
+import HeaderContainer from "./components/header/HeaderContainer";
 
 
 type AppPropsType = {
@@ -29,7 +30,7 @@ function App() {
     return (
 
         <div className={'AppWrapper'}>
-            <Header/>
+            <HeaderContainer/>
             <Nav/>
             <div className={'AppWrapperComponents'}>
                 <Route
