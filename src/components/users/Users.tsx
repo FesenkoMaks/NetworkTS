@@ -1,19 +1,12 @@
 import React from "react";
 import s from "./Users.module.css"
-import {
-    followUser,
-    setCurrentPage,
-    setIsFetching,
-    setUsersTotalCount,
-    unFollowUser,
-    UsersType
-} from "../../redux/Users-reducer";
+import {UsersType} from "../../redux/Users-reducer";
 
 import Avatar from '../../assets/images/defaultAvatar.png'
-import preload from '../../assets/images/preloader.gif'
 import {NavLink} from "react-router-dom";
 import Preloader from "../common/Preloader";
-import * as axios from "axios";
+import {FollowAPI} from "../../redux/Api";
+
 
 type PropsType = {
     users: Array<UsersType>,
@@ -64,15 +57,8 @@ const Users = (props: PropsType) => {
                                                 ? s.buttonUnFollow
                                                 : s.buttonFollow}
                                             onClick={() =>
-                                                axios.default.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-                                                    {
-                                                        withCredentials: true,
-                                                        headers: {
-                                                            "API-KEY": '41baaef3-6da6-4de6-b20f-66271991d083'
-                                                        }
-                                                    }
-                                                ).then(res => {
-                                                    if (res.data.resultCode === 0) {
+                                                FollowAPI.unFollowDel(u.id).then(data => {
+                                                    if (data.resultCode === 0) {
                                                         props.unFollowUser(u.id)
                                                     }
 
@@ -85,15 +71,8 @@ const Users = (props: PropsType) => {
                                                 ? s.buttonUnFollow
                                                 : s.buttonFollow}
                                             onClick={() =>
-                                                axios.default.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {},
-                                                    {
-                                                        withCredentials: true,
-                                                        headers: {
-                                                            "API-KEY": '41baaef3-6da6-4de6-b20f-66271991d083'
-                                                        }
-                                                    }
-                                                ).then(res => {
-                                                    if (res.data.resultCode === 0) {
+                                                FollowAPI.followPost(u.id).then(data => {
+                                                    if (data.resultCode === 0) {
                                                         props.followUser(u.id)
                                                     }
 
