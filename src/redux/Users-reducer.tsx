@@ -20,13 +20,15 @@ const SET_USERS = 'SET_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const SET_IS_FETCHING = 'SET_IS_FETCHING'
+const SET_IS_DISABLED = 'SET_IS_DISABLED'
 
 let internalState = {
     users: [],
     pageSize: 5,
     totalUserCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    isDisabled: []
 }
 
 export const usersReducer = (state: any = internalState, action: any) => {
@@ -66,6 +68,13 @@ export const usersReducer = (state: any = internalState, action: any) => {
         case SET_IS_FETCHING: {
             return {...state, isFetching: action.isFetching}
         }
+        case SET_IS_DISABLED: {
+
+            return {...state,
+                isDisabled: action.isDisabled
+                    ? [...state.isDisabled, action.userId]
+                    : state.isDisabled.filter((id:any) => id != action.userId)}
+        }
 
         default:
             return state
@@ -79,4 +88,5 @@ export const setUsers = (users: UsersType) => ({type: SET_USERS, users})
 export const setCurrentPage = (currentPage: number) => ({type: SET_CURRENT_PAGE, currentPage})
 export const setUsersTotalCount = (totalUsersCount: number) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount})
 export const setIsFetching = (isFetching: boolean) => ({type: SET_IS_FETCHING, isFetching})
+export const setIsDisabled = (isDisabled: boolean, userId: number) => ({type: SET_IS_DISABLED, isDisabled, userId})
 

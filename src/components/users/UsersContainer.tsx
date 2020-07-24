@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 
 import {
     followUser,
-    setCurrentPage,
+    setCurrentPage, setIsDisabled,
     setIsFetching,
     setUsers,
     setUsersTotalCount,
@@ -26,7 +26,9 @@ type PropsType = {
     setCurrentPage: (p: number) => void,
     setUsersTotalCount: (totalUsersCount: number) => void
     isFetching: boolean
+    isDisabled: any
     setIsFetching: (isFetching: boolean) => void
+    setIsDisabled: (isDisabled: boolean, userId: number) => void
 
 }
 
@@ -63,6 +65,8 @@ class UsersAPIComponent extends React.Component<PropsType>{
                       followUser={this.props.followUser}
                       unFollowUser={this.props.unFollowUser}
                       onPageChanged={this.onPageChanged}
+                      setIsDisabled = {this.props.setIsDisabled}
+                      isDisabled={this.props.isDisabled}
 
 
         />
@@ -81,7 +85,8 @@ let mapStateToProps = (state: any) => {
         pageSize: state.usersPage.pageSize,
         totalUserCount: state.usersPage.totalUserCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        isDisabled: state.usersPage.isDisabled,
 
     }
 }
@@ -113,6 +118,6 @@ let mapStateToProps = (state: any) => {
 // }
 
 const UsersContainer = connect(mapStateToProps,
-    {setUsers,followUser, unFollowUser, setCurrentPage, setUsersTotalCount, setIsFetching})(UsersAPIComponent)
+    {setUsers,followUser, unFollowUser, setCurrentPage, setUsersTotalCount, setIsFetching, setIsDisabled})(UsersAPIComponent)
 
 export default UsersContainer;

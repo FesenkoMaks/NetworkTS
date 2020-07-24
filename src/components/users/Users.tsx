@@ -17,6 +17,8 @@ type PropsType = {
     unFollowUser: (userId: number) => void,
     onPageChanged: (p: number) => void,
     isFetching: boolean
+    isDisabled: any
+    setIsDisabled: (isDisabled: boolean, userId: number) => void
 }
 
 
@@ -44,7 +46,7 @@ const Users = (props: PropsType) => {
             </div>
             {
                 props.users.map((u: UsersType) => {
-                    debugger
+
                     return <div key={u.id} className={s.userItem}>
                         <div>
                             <NavLink to={'/profile/' + u.id}>
@@ -53,30 +55,36 @@ const Users = (props: PropsType) => {
                             <div>
                                 {
                                     u.followed ? <button
+                                            disabled={props.isDisabled.some((id:any) => id === u.id)}
                                             className={u.followed
-                                                ? s.buttonUnFollow
-                                                : s.buttonFollow}
-                                            onClick={() =>
-                                                FollowAPI.unFollowDel(u.id).then(data => {
+                                            ? s.buttonUnFollow
+                                            : s.buttonFollow}
+                                            onClick={() =>{
+                                                props.setIsDisabled(true, u.id)
+                                               FollowAPI.unFollowDel(u.id).then(data => {
                                                     if (data.resultCode === 0) {
                                                         props.unFollowUser(u.id)
+                                                        props.setIsDisabled(false, u.id)
                                                     }
 
                                                 })
-                                            }
+                                            }}
 
                                         >UnFollow</button>
                                         : <button
+                                            disabled={props.isDisabled.some((id:any) => id === u.id)}
                                             className={u.followed
                                                 ? s.buttonUnFollow
                                                 : s.buttonFollow}
-                                            onClick={() =>
+                                            onClick={() =>{
+                                                props.setIsDisabled(true, u.id)
                                                 FollowAPI.followPost(u.id).then(data => {
                                                     if (data.resultCode === 0) {
                                                         props.followUser(u.id)
+                                                        props.setIsDisabled(false, u.id)
                                                     }
 
-                                                })}
+                                                })}}
 
                                         >Follow</button>
                                 }
