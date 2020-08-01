@@ -1,5 +1,6 @@
 import {PostDataTypes, PostType} from "./store";
 import React from "react";
+import {FollowAPI, UsersAPI} from "./Api";
 
 export type PhotosType = {
     small: string | undefined
@@ -80,6 +81,36 @@ export const usersReducer = (state: any = internalState, action: any) => {
             return state
     }
 }
+
+export const getUsers = (currentPage:number, pageSize:number) => (dispatch: any) => {
+    dispatch(setIsFetching(true));
+    UsersAPI.getUsers(currentPage, pageSize).then(data => {
+        dispatch(setUsers(data.items));
+        dispatch(setIsFetching(false));
+        dispatch(setUsersTotalCount(data.totalCount));
+    });
+}
+export const unFollow = (userId: any) => (dispatch: any) => {
+    dispatch(setIsDisabled(true, userId))
+    FollowAPI.unFollowDel(userId).then(data => {
+        if (data.resultCode === 0) {
+            dispatch(unFollowUser(userId))
+            dispatch(setIsDisabled(false, userId))
+        }
+
+    })
+}
+export const follow = (userId: any) => (dispatch: any) => {
+    dispatch(setIsDisabled(true, userId))
+    FollowAPI.followPost(userId).then(data => {
+        if (data.resultCode === 0) {
+            dispatch(followUser(userId))
+            dispatch(setIsDisabled(false, userId))
+        }
+
+    })
+}
+
 
 export const followUser = (userId: number) => ({type: FOLLOW, userId})
 

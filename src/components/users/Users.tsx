@@ -19,6 +19,8 @@ type PropsType = {
     isFetching: boolean
     isDisabled: any
     setIsDisabled: (isDisabled: boolean, userId: number) => void
+    follow: (numberPage: number) => void
+    unFollow: (numberPage: number) => void
 }
 
 
@@ -60,14 +62,15 @@ const Users = (props: PropsType) => {
                                             ? s.buttonUnFollow
                                             : s.buttonFollow}
                                             onClick={() =>{
-                                                props.setIsDisabled(true, u.id)
-                                               FollowAPI.unFollowDel(u.id).then(data => {
-                                                    if (data.resultCode === 0) {
-                                                        props.unFollowUser(u.id)
-                                                        props.setIsDisabled(false, u.id)
-                                                    }
-
-                                                })
+                                                props.unFollow(u.id)
+                                               //  props.setIsDisabled(true, u.id)
+                                               // FollowAPI.unFollowDel(u.id).then(data => {
+                                               //      if (data.resultCode === 0) {
+                                               //          props.unFollowUser(u.id)
+                                               //          props.setIsDisabled(false, u.id)
+                                               //      }
+                                               //
+                                               //  })
                                             }}
 
                                         >UnFollow</button>
@@ -77,14 +80,16 @@ const Users = (props: PropsType) => {
                                                 ? s.buttonUnFollow
                                                 : s.buttonFollow}
                                             onClick={() =>{
-                                                props.setIsDisabled(true, u.id)
-                                                FollowAPI.followPost(u.id).then(data => {
-                                                    if (data.resultCode === 0) {
-                                                        props.followUser(u.id)
-                                                        props.setIsDisabled(false, u.id)
-                                                    }
-
-                                                })}}
+                                                props.follow(u.id)
+                                                // props.setIsDisabled(true, u.id)
+                                                // FollowAPI.followPost(u.id).then(data => {
+                                                //     if (data.resultCode === 0) {
+                                                //         props.followUser(u.id)
+                                                //         props.setIsDisabled(false, u.id)
+                                                //     }
+                                                //
+                                                // })
+                                            }}
 
                                         >Follow</button>
                                 }
