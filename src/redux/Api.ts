@@ -34,6 +34,12 @@ export const FollowAPI = {
     }
 }
 
+export const ProfileAPI = {
+    getProfile(userId: number) {
+        return instance.get(`profile/${userId}`).then(response => response.data);
+    }
+}
+
 
 
 

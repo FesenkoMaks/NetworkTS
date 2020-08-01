@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import {DataType} from "../../redux/Auth-reducer";
 
 export type DataPropsType = {
-    setUserData: (id: any, email: any, login: any) => void
+    getAuth: () => void
     isAuth: boolean
     login: string | null
 

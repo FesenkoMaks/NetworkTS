@@ -1,6 +1,7 @@
 import {PostDataTypes, PostType} from "./store";
 import {UsersType} from "./Users-reducer";
 import {ProfileType} from "../components/profile/ProfileContainer";
+import {ProfileAPI} from "./Api";
 
 const ADD_POST = 'ADD-POST';
 const UPD_NEW_POST_MESSAGE ='UPD-NEW-POST-MESSAGE';
@@ -42,6 +43,15 @@ export const profileReducer = (state: PostDataTypes = internalState , action: an
         default:
             return state
     }
+}
+
+export const getProfile = (userId: number) => (dispatch: any) => {
+
+
+    if (!userId) {
+        userId=2
+    }
+    ProfileAPI.getProfile(userId).then(data => dispatch(setProfile(data)))
 }
 
 export const actionCreatorAddPost = () => ({type: ADD_POST})

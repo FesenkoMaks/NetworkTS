@@ -5,7 +5,7 @@ import {UsersType} from "../../redux/Users-reducer";
 import Avatar from '../../assets/images/defaultAvatar.png'
 import {NavLink} from "react-router-dom";
 import Preloader from "../common/Preloader";
-import {FollowAPI} from "../../redux/Api";
+
 
 
 type PropsType = {
@@ -13,12 +13,11 @@ type PropsType = {
     totalUserCount: number,
     pageSize: number,
     currentPage: number,
-    followUser: (userId: number) => void,
-    unFollowUser: (userId: number) => void,
+
     onPageChanged: (p: number) => void,
     isFetching: boolean
     isDisabled: any
-    setIsDisabled: (isDisabled: boolean, userId: number) => void
+
     follow: (numberPage: number) => void
     unFollow: (numberPage: number) => void
 }

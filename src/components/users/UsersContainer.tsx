@@ -4,32 +4,27 @@ import {connect} from "react-redux";
 
 import {
     follow,
-    followUser, getUsers,
-    setCurrentPage, setIsDisabled,
-    setIsFetching,
-    setUsers,
-    setUsersTotalCount, unFollow,
-    unFollowUser,
+    getUsers,
+    setCurrentPage,
+    unFollow,
     UsersType
 } from "../../redux/Users-reducer";
 
 import Users from "./Users";
-import { UsersAPI} from "../../redux/Api";
+
 
 type PropsType = {
     users: Array<UsersType>,
     totalUserCount: number,
     pageSize: number,
     currentPage: number,
-    followUser: (userId: number) => void,
-    unFollowUser: (userId: number) => void,
-    setUsers: (users: UsersType) => void,
+
+
     setCurrentPage: (p: number) => void,
-    setUsersTotalCount: (totalUsersCount: number) => void
+
     isFetching: boolean
     isDisabled: any
-    setIsFetching: (isFetching: boolean) => void
-    setIsDisabled: (isDisabled: boolean, userId: number) => void
+
     getUsers: (currentPage: number, pageSize: number) => void
     follow: (numberPage: number) => void
     unFollow: (numberPage: number) => void
@@ -68,10 +63,9 @@ class UsersAPIComponent extends React.Component<PropsType>{
                       currentPage={this.props.currentPage}
                       users={this.props.users}
                       isFetching={this.props.isFetching}
-                      followUser={this.props.followUser}
-                      unFollowUser={this.props.unFollowUser}
+
                       onPageChanged={this.onPageChanged}
-                      setIsDisabled = {this.props.setIsDisabled}
+
                       isDisabled={this.props.isDisabled}
                         follow={this.props.follow}
                         unFollow={this.props.unFollow}
@@ -101,6 +95,6 @@ let mapStateToProps = (state: any) => {
 
 
 const UsersContainer = connect(mapStateToProps,
-    {setUsers,followUser, unFollowUser, setCurrentPage, setUsersTotalCount, setIsFetching, setIsDisabled, getUsers, unFollow, follow})(UsersAPIComponent)
+    { setCurrentPage,   getUsers, unFollow, follow})(UsersAPIComponent)
 
 export default UsersContainer;
