@@ -6,16 +6,14 @@ import {PostType} from "../../../redux/store";
 
 
 type PropsType = {
-    newPostText : string
     posts:  Array<PostType>
-    postChange: (text: string | undefined) => void
-    addPost: () => void
-    // addPost: (value: string) => void
-    // updateNewPostMessage: (newText: string) => void
-    // dispatch: (action:any) => void
+    addPost: (newPost: string) => void
 }
 
 function MyPosts(props:PropsType) {
+    let onSubmitNewPost = (formData: any) => {
+        props.addPost(formData.textNewMessage)
+    }
 
 
     let postsElement = props.posts.map((p) => <Post text={p.text} like={p.like}/>)
@@ -23,11 +21,7 @@ function MyPosts(props:PropsType) {
     return (
         <div>
             <div className={s.text}>My Posts</div>
-            <NewPost
-                postChange={props.postChange}
-                newPostText={props.newPostText}
-                addPost={props.addPost}
-            />
+            <NewPost onSubmit={onSubmitNewPost}/>
             {postsElement}
         </div>
     )

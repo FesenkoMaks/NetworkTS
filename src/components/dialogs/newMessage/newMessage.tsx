@@ -1,46 +1,19 @@
 import React from "react";
-import { actionCreatorAddNewMessage, actionCreatorOnMessageChange } from "../../../redux/Dialogs-reducer";
+import {reduxForm, Field} from "redux-form";
 
 
-
-type NewMessagePropsType = {
-    // addMessage: (textMessage:string) => void
-    // updateNewMessage: (neText:string) => void
-    newMessageText: string
-    // dispatch: (action:any) => void
-    addNewMessage:() => void
-    onMessageChange:(text: string | undefined) => void
-}
-
-
-function NewMessage(props:NewMessagePropsType) {
-
-    let newTextChange = React.createRef<HTMLTextAreaElement>()
-
-
-    let addNewMessage = () => {
-        props.addNewMessage()
-    }
-
-    let onMessageChange = () => {
-        let text = newTextChange.current?.value
-        props.onMessageChange(text)
-
-
-    }
-
-
+function NewMessageForn(props: any) {
 
     return (
-           <div>
-              <textarea
-                  ref={newTextChange}
-                  value={props.newMessageText}
-                  onChange={onMessageChange}
-              />
-               <button onClick={addNewMessage}>Send</button>
-           </div>
-              )
+        <form onSubmit={props.handleSubmit}>
+            <Field component={'textarea'} name={'newMessageText'}/>
+            <button>Send</button>
+        </form>
+    )
 }
+
+let NewMessage = reduxForm({
+    form: 'newMessage'
+})(NewMessageForn)
 
 export default NewMessage;

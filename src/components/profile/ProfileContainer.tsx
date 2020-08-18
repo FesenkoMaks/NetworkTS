@@ -1,11 +1,10 @@
 import React from "react";
 import Profile from "./Profile";
-import * as axios from "axios";
 import {connect} from "react-redux";
 import {PhotosType} from "../../redux/Users-reducer";
-import {getProfile, setProfile} from "../../redux/Profile-reducer";
+import {getProfile, getProfileStatus, updateProfileStatus} from "../../redux/Profile-reducer";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import {ProfileAPI} from "../../redux/Api";
+import {compose} from "redux";
 
 type ContactsType = {
     github: string | null
@@ -32,30 +31,30 @@ export type ProfileType = {
 
 
 export type ProfileContainerPropsType = {
-
+    status: string
+    isAuth: boolean
     profile: ProfileType
     getProfile: (userId: number) => void
+    getProfileStatus: (userId: number) => void
+    updateProfileStatus: (status: string) => void
+
 }
 
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType & RouteComponentProps<{userId: any}>> {
     componentDidMount() {
-        this.props.getProfile(this.props.match.params.userId)
-        // let userId = this.props.match.params.userId
-        // if (!userId) {
-        //    userId=2
-        // }
-        // ProfileAPI.getProfile(userId).then(data => {this.props.setProfile(data)})
-        // axios.default.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId).then(res => {
-        //
-        //     this.props.setProfile(res.data);
-        //
-        // });
+        let userId = this.props.match.params.userId
+        if (!userId) {
+           userId=7634
+        }
+
+        this.props.getProfile(userId);
+        this.props.getProfileStatus(userId);
     }
 
     render() {
 
-        return <Profile {...this.props} profile={this.props.profile}/>
+        return <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateProfileStatus={this.props.updateProfileStatus}/>
     }
 }
 
@@ -63,12 +62,14 @@ let mapStateToProps = (state: any) => {
 
     return {
 
-        profile: state.myPostsPage.profile
-
+        profile: state.myPostsPage.profile,
+        isAuth: state.auth.isAuth,
+        status: state.myPostsPage.status
     }
 }
 
-let WithRouterProfileContainer  = withRouter(ProfileContainer)
-
-export default connect(mapStateToProps,
-    {getProfile})(WithRouterProfileContainer)
+export default compose(
+    connect(mapStateToProps,
+        {getProfile, getProfileStatus, updateProfileStatus}),
+    withRouter
+)(ProfileContainer) as React.ComponentClass

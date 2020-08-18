@@ -1,29 +1,16 @@
 import React from 'react';
 import './App.css';
-import Header from './components/header/Header';
 import Nav from './components/nav/Nav';
-import Profile from "./components/profile/Profile";
 import {Route} from 'react-router-dom';
-
 import News from './components/news/News';
 import Music from './components/music/Music';
 import Settings from './components/settings/Settings';
-import {StoreType} from './redux/store';
 import DialogsContainer from "./components/dialogs/DialogsContainer";
-
 import UsersContainer from "./components/users/UsersContainer";
 import ProfileContainer from "./components/profile/ProfileContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
+import Login from "./components/login/Login";
 
-
-type AppPropsType = {
-    store: StoreType
-    // addPost: (textPost:string) => void
-    // addMessage: () => void
-    // updateNewPostMessage: (newText: string) => void
-    // updateNewMessage: (newText: string) => void
-    // dispatch: (action:any) => void
-}
 
 
 function App() {
@@ -51,6 +38,9 @@ function App() {
                 <Route
                     path={'/users'}
                     render={() => <UsersContainer/>}/>
+                <Route
+                    path={'/login'}
+                    render={() => <Login/>}/>
 
             </div>
         </div>

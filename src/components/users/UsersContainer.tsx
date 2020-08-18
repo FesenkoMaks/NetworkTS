@@ -1,6 +1,6 @@
 import React from "react";
 
-import {connect} from "react-redux";
+import {connect } from "react-redux";
 
 import {
     follow,
@@ -11,14 +11,15 @@ import {
 } from "../../redux/Users-reducer";
 
 import Users from "./Users";
-
+import {WithAuthRedirect} from "../hoc/withAuthComponent";
+import { compose } from "redux";
+import { RouteComponentProps } from "react-router-dom";
 
 type PropsType = {
     users: Array<UsersType>,
     totalUserCount: number,
     pageSize: number,
     currentPage: number,
-
 
     setCurrentPage: (p: number) => void,
 
@@ -58,6 +59,7 @@ class UsersAPIComponent extends React.Component<PropsType>{
 
 
     render() {
+
         return <Users totalUserCount={this.props.totalUserCount}
                       pageSize={this.props.pageSize}
                       currentPage={this.props.currentPage}
@@ -82,6 +84,7 @@ class UsersAPIComponent extends React.Component<PropsType>{
 
 let mapStateToProps = (state: any) => {
     return {
+
        users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalUserCount: state.usersPage.totalUserCount,
@@ -94,7 +97,8 @@ let mapStateToProps = (state: any) => {
 
 
 
-const UsersContainer = connect(mapStateToProps,
-    { setCurrentPage,   getUsers, unFollow, follow})(UsersAPIComponent)
-
-export default UsersContainer;
+export default compose(
+    connect(mapStateToProps,
+        { setCurrentPage,   getUsers, unFollow, follow}),
+    WithAuthRedirect
+)(UsersAPIComponent) as React.ComponentClass

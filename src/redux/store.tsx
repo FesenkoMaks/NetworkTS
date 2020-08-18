@@ -35,7 +35,6 @@ export type PostDataTypes = {
 export type DialogsDataTypes = {
     messageData: Array<MessageType>
     dialogsData: Array<DialogsType>
-    newMessageText: string
 }
 
 export type StateDataType = {

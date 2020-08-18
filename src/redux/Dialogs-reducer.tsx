@@ -18,8 +18,7 @@ let initialState = {
         {name: 'Vlad', id: 3},
         {name: 'Gena', id: 4},
         {name: 'Putin', id: 5}
-    ],
-    newMessageText: ''
+    ]
 }
 
 export const dialogsReducer = (state: DialogsDataTypes = initialState, action: any) => {
@@ -27,7 +26,7 @@ export const dialogsReducer = (state: DialogsDataTypes = initialState, action: a
         case ADD_MESSAGE: {
             let newMessage: MessageType = {
                 id: 7,
-                message: state.newMessageText,
+                message: action.messageText,
             }
             return  {...state,
                 messageData: [...state.messageData, newMessage],
@@ -47,7 +46,5 @@ export const dialogsReducer = (state: DialogsDataTypes = initialState, action: a
     }
 }
 
-    export const actionCreatorAddNewMessage = () => ({type: ADD_MESSAGE})
-
-    export const actionCreatorOnMessageChange = (text: string | undefined) =>  ({type: UPD_NEW_MESSAGE, newTextMessage: text})
+    export const actionCreatorAddNewMessage = (messageText: string) => ({type: ADD_MESSAGE, messageText})
 

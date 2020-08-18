@@ -27,7 +27,6 @@ function InfoProfile(props: PropsType) {
                         <div className={s.item}>{props.profile.fullName}</div>
                         <div className={s.item}>{props.profile.lookingForAJobDescription}</div>
                         <div className={s.item}>{props.profile.aboutMe}</div>
-                        <div className={s.item}>Education: BNTU</div>
                         <div className={s.item}>{props.profile.contacts.website}</div>
                     </div>
                 </div>
