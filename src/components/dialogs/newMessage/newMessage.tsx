@@ -1,12 +1,18 @@
 import React from "react";
 import {reduxForm, Field} from "redux-form";
+import {Textarea} from "../../common/Textarea";
+import {maxLengthCreator, required} from "../../../validators";
 
+let maxLength: any = maxLengthCreator(2)
 
-function NewMessageForn(props: any) {
-
+function NewMessageForm(props: any) {
     return (
         <form onSubmit={props.handleSubmit}>
-            <Field component={'textarea'} name={'newMessageText'}/>
+            <Field
+                component={Textarea}
+                name={'newMessageText'}
+                validate={[required, maxLength]}
+            />
             <button>Send</button>
         </form>
     )
@@ -14,6 +20,6 @@ function NewMessageForn(props: any) {
 
 let NewMessage = reduxForm({
     form: 'newMessage'
-})(NewMessageForn)
+})(NewMessageForm)
 
 export default NewMessage;

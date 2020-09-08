@@ -31,6 +31,7 @@ export type ProfileType = {
 
 
 export type ProfileContainerPropsType = {
+    getUserId: number
     status: string
     isAuth: boolean
     profile: ProfileType
@@ -45,7 +46,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType & Route
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
-           userId=7634
+           userId=this.props.getUserId
         }
 
         this.props.getProfile(userId);
@@ -59,11 +60,11 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType & Route
 }
 
 let mapStateToProps = (state: any) => {
-
     return {
 
         profile: state.myPostsPage.profile,
         isAuth: state.auth.isAuth,
+        getUserId: state.auth.id,
         status: state.myPostsPage.status
     }
 }

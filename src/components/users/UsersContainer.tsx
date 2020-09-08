@@ -14,6 +14,12 @@ import Users from "./Users";
 import {WithAuthRedirect} from "../hoc/withAuthComponent";
 import { compose } from "redux";
 import { RouteComponentProps } from "react-router-dom";
+import {
+    getCurrentPageSelector, getIsDisabledSelector, getIsFetchingSelector,
+    getPageSizeSelector,
+    getTotalUserCountSelector,
+    getUsersSuperSelector
+} from "../../redux/User-selector";
 
 type PropsType = {
     users: Array<UsersType>,
@@ -85,12 +91,12 @@ class UsersAPIComponent extends React.Component<PropsType>{
 let mapStateToProps = (state: any) => {
     return {
 
-       users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUserCount: state.usersPage.totalUserCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        isDisabled: state.usersPage.isDisabled,
+        users: getUsersSuperSelector(state),
+        pageSize: getPageSizeSelector(state),
+        totalUserCount: getTotalUserCountSelector(state),
+        currentPage: getCurrentPageSelector(state),
+        isFetching: getIsFetchingSelector(state),
+        isDisabled: getIsDisabledSelector(state),
 
     }
 }

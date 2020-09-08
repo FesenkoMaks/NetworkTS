@@ -9,26 +9,39 @@ let instance = axios.default.create({
 })
 
 
-
 export const UsersAPI = {
     getUsers(currentPage: number, pageSize: number) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data)
-    },
+    }
+}
+
+
+export const LoginAPI = {
     getAuthMe() {
-        return  instance.get(`auth/me`)
+        return instance.get(`auth/me`)
+            .then(response => response.data)
+    },
+
+    login(email: string, password: string, rememberMe: boolean = false) {
+        return instance.post(`/auth/login`, {email, password, rememberMe})
+            .then(response => response.data)
+    },
+
+    loginout() {
+        return instance.delete(`/auth/login`)
             .then(response => response.data)
     }
 }
 
 
 export const FollowAPI = {
-    unFollowDel (userId: number)  {
+    unFollowDel(userId: number) {
         return instance.delete(`follow/${userId}`)
             .then(response => response.data)
     },
 
-    followPost  (userId: number) {
+    followPost(userId: number) {
         return instance.post(`follow/${userId}`)
             .then(response => response.data)
     }
@@ -42,11 +55,13 @@ export const ProfileAPI = {
     getProfileStatus(userId: number) {
 
         return instance.get(`profile/status/${userId}`).then(response => {
-            return  response.data});
+            return response.data
+        });
     },
 
     updateProfileStatus(status: string) {
-        return instance.put(`profile/status`, {status: status}).then(response => response.data);;
+        return instance.put(`profile/status`, {status: status}).then(response => response.data);
+        ;
     }
 }
 

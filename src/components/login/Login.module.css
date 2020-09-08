@@ -1,0 +1,6 @@
+.errorForm{
+    border: 2px solid red;
+    color: red;
+    font-size: 20px;
+    width: 300px;
+}
