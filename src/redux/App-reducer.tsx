@@ -28,7 +28,6 @@ export const appReducer = (state: DataType = internalState , action: any) => {
 export const setInitialized = () => ({type: SET_INITIALIZED})
 
 export const initializedApp = () => (dispatch: any) => {
-    debugger
     let promise = dispatch(getAuth())
     Promise.all([promise]).then(
         dispatch(setInitialized())

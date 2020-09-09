@@ -10,7 +10,8 @@ type PropsType = {
     addPost: (newPost: string) => void
 }
 
-function MyPosts(props:PropsType) {
+const MyPosts = (props:PropsType) => {
+    console.log('render MyPosts')
     let onSubmitNewPost = (formData: any) => {
         props.addPost(formData.textNewMessage)
     }

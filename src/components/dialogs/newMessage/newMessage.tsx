@@ -3,7 +3,7 @@ import {reduxForm, Field} from "redux-form";
 import {Textarea} from "../../common/Textarea";
 import {maxLengthCreator, required} from "../../../validators";
 
-let maxLength: any = maxLengthCreator(2)
+let maxLength: any = maxLengthCreator(100)
 
 function NewMessageForm(props: any) {
     return (

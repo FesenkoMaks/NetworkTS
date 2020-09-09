@@ -42,7 +42,7 @@ export type ProfileContainerPropsType = {
 }
 
 
-class ProfileContainer extends React.Component<ProfileContainerPropsType & RouteComponentProps<{userId: any}>> {
+class ProfileContainer extends React.PureComponent<ProfileContainerPropsType & RouteComponentProps<{userId: any}>> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {

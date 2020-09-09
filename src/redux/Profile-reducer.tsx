@@ -1,5 +1,4 @@
 import {PostDataTypes, PostType} from "./store";
-import {UsersType} from "./Users-reducer";
 import {ProfileType} from "../components/profile/ProfileContainer";
 import {ProfileAPI} from "./Api";
 

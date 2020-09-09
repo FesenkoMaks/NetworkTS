@@ -2,7 +2,6 @@ import React from "react";
 import s from './../Dialogs.module.css';
 import {NavLink} from "react-router-dom";
 
-
 type DialogPropsType = {
     id: number
     name: string
@@ -16,12 +15,9 @@ const Dialog = (props:DialogPropsType) => {
     )
 }
 
-
-
 type DataTypes = {
     dialogs: Array<{name: string, id: number}>
 }
-
 
 function DialogsItem(props:DataTypes) {
     let dialogsElements = props.dialogs.map((d) => <Dialog name={d.name} id={d.id}/>)

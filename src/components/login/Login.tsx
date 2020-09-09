@@ -1,11 +1,12 @@
 import React from "react";
-import {Field, reduxForm} from "redux-form";
+import {reduxForm} from "redux-form";
 import {Input} from "../common/Textarea";
 import {maxLengthCreator, required} from "../../validators";
 import {connect} from "react-redux";
 import {login} from "../../redux/Auth-reducer";
 import {Redirect} from "react-router-dom";
 import style from "./Login.module.css"
+import {FiledCreator} from "../common/FiledCreator";
 
 type loginPropsType = {
     login: (login: string, password: string, rememberMe: boolean) => void
@@ -17,27 +18,9 @@ let maxLength = maxLengthCreator(50)
 const LoginForm = (props: any) => {
     return (
         <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field
-                    validate={[required, maxLength]}
-                    placeholder={'Login'}
-                    component={Input}
-                    name={'login'}
-                    type="text"
-                />
-            </div>
-            <div>
-                <Field
-                    validate={[required, maxLength]}
-                    placeholder={'Password'}
-                    component={Input}
-                    name={'password'}
-                    type="password"
-                />
-            </div>
-            <div>
-                <Field component={Input} name={'rememberMe'} type={'checkbox'}/> remember me
-            </div>
+            <FiledCreator placeholder={'Login'} validate={[required, maxLength]} name={'login'} component={Input} type={'text'}/>
+            <FiledCreator placeholder={'Password'} validate={[required, maxLength]} name={'password'} component={Input} type={'password'}/>
+            <FiledCreator name={'rememberMe'} component={Input} type={'checkbox'} text={'remember me'}/>
             {props.error ? <div className={style.errorForm}>
                 {props.error}
             </div> : ''}
@@ -72,7 +55,6 @@ const Login = (props: loginPropsType) => {
 let mapStateToProps = (state: any) => {
     return {
         isAuth: state.auth.isAuth
-
     }
 }
 
