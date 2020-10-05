@@ -9,21 +9,28 @@ import style from "./Login.module.css"
 import {FiledCreator} from "../common/FiledCreator";
 
 type loginPropsType = {
-    login: (login: string, password: string, rememberMe: boolean) => void
+    login: (login: string, password: string, rememberMe: boolean, captcha: string) => void
     isAuth: boolean
+    captchaURL: string
 }
 
 let maxLength = maxLengthCreator(50)
 
-const LoginForm = (props: any) => {
+type SampleFormProps = {
+    captcha: string
+}
+
+const LoginForm = ({handleSubmit, error, captcha}: any ) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <FiledCreator placeholder={'Login'} validate={[required, maxLength]} name={'login'} component={Input} type={'text'}/>
             <FiledCreator placeholder={'Password'} validate={[required, maxLength]} name={'password'} component={Input} type={'password'}/>
             <FiledCreator name={'rememberMe'} component={Input} type={'checkbox'} text={'remember me'}/>
-            {props.error ? <div className={style.errorForm}>
-                {props.error}
+            {error ? <div className= {style.errorForm}>
+                {error}
             </div> : ''}
+            {captcha && <div><img src={captcha}/>
+            <FiledCreator component={Input} name={'captcha'} validate={[required]} type={'text'}/></div>}
             <button>
                 Login
             </button>
@@ -31,14 +38,14 @@ const LoginForm = (props: any) => {
     )
 }
 
-let LoginReduxForm = reduxForm({
+let LoginReduxForm = reduxForm<any, {captcha: string}>({
     form: 'login'
 })(LoginForm)
 
 const Login = (props: loginPropsType) => {
     let onSubmit = (formData: any) => {
         console.log(formData)
-        props.login(formData.login, formData.password, formData.rememberMe)
+        props.login(formData.login, formData.password, formData.rememberMe, formData.captcha)
     }
 
     if(props.isAuth){
@@ -47,13 +54,14 @@ const Login = (props: loginPropsType) => {
     return (
         <div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <LoginReduxForm onSubmit={onSubmit} captcha={props.captchaURL}/>
         </div>
     )
 }
 
 let mapStateToProps = (state: any) => {
     return {
+        captchaURL: state.auth.captchaURL,
         isAuth: state.auth.isAuth
     }
 }

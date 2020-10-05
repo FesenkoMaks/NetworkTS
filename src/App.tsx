@@ -7,13 +7,15 @@ import Music from './components/music/Music';
 import Settings from './components/settings/Settings';
 import DialogsContainer from "./components/dialogs/DialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
-import ProfileContainer from "./components/profile/ProfileContainer";
+
 import HeaderContainer from "./components/header/HeaderContainer";
 import Login from "./components/login/Login";
 import {connect} from "react-redux";
 import {compose} from 'redux';
 import {initializedApp} from "./redux/App-reducer";
 import Preloader from "./components/common/Preloader";
+
+const ProfileContainer = React.lazy(() => import("./components/profile/ProfileContainer"))
 
 type PropsType = {
     initializedApp: () => void
@@ -36,7 +38,13 @@ class App extends React.Component<PropsType> {
                     <div className={'AppWrapperComponents'}>
                         <Route
                             path={'/profile/:userId?'}
-                            render={() => <ProfileContainer/>}/>
+                            render={() => {
+                                return (
+                                    <React.Suspense fallback={<div>Loading...</div>}>
+                                        <ProfileContainer/>
+                                    </React.Suspense>
+                                )
+                            }}/>
                         <Route
                             path={'/dialogs'}
                             render={() => <DialogsContainer/>}/>
@@ -64,7 +72,7 @@ class App extends React.Component<PropsType> {
 }
 
 let mapStateToProps = (state: any) => ({
-    initialized : state.app.initialized
+    initialized: state.app.initialized
 })
 
 export default compose<any>(

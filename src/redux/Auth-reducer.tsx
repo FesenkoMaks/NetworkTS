@@ -1,27 +1,31 @@
-import {LoginAPI, UsersAPI} from "./Api";
+import {LoginAPI, SecurityAPI, UsersAPI} from "./Api";
 import {stopSubmit} from "redux-form";
 
 
 const SET_USER_DATA = 'SET_USER_DATA'
+const SET_CAPTCHA_URL = 'SET_CAPTCHA_URL'
 
 export type DataType = {
     id: number | null
     email: string | null
     login: string | null
     isAuth : boolean
+    captchaURL: any
 }
 
 let internalState = {
     id: null,
     email: null,
     login: null,
-    isAuth: false
-
+    isAuth: false,
+    captchaURL: null
 }
 
 export const authReducer = (state: DataType = internalState , action: any) => {
+    debugger
     switch (action.type) {
-        case SET_USER_DATA: {
+        case SET_USER_DATA:
+        case SET_CAPTCHA_URL: {
             return {
                 ...state,
                 ...action.payload
@@ -32,6 +36,9 @@ export const authReducer = (state: DataType = internalState , action: any) => {
     }
 }
 
+
+export const setCaptchaURL = (captchaURL: string) => ({type: SET_CAPTCHA_URL, payload: {captchaURL}})
+
 export const getAuth = () => (dispatch: any) => {
    return  LoginAPI.getAuthMe().then(data => {
         if(data.resultCode === 0) {
@@ -41,12 +48,17 @@ export const getAuth = () => (dispatch: any) => {
     });
 }
 
-export const login = (email: string, password: string, rememberMe: boolean = false) => (dispatch: any) => {
-    LoginAPI.login(email, password, rememberMe).then(data => {
-        debugger
+export const login = (email: string, password: string, rememberMe: boolean = false, captcha: string) => (dispatch: any) => {
+    LoginAPI.login(email, password, rememberMe, captcha).then(data => {
         if(data.resultCode === 0) {
             let {id, email, login} = data.data
             dispatch(setUserData(id, email, login, true))
+        } if (data.resultCode === 10){
+            debugger
+            SecurityAPI.getCaptchaUrl().then(data => {
+                debugger
+                dispatch(setCaptchaURL(data.url))
+            })
         } else {
             if(data.messages){
                 dispatch(stopSubmit('login', {_error: data.messages[0]}))

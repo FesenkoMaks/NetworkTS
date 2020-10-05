@@ -3,9 +3,10 @@ import {ProfileType} from "../components/profile/ProfileContainer";
 import {ProfileAPI} from "./Api";
 
 const ADD_POST = 'ADD-POST';
-const UPD_NEW_POST_MESSAGE ='UPD-NEW-POST-MESSAGE';
-const SET_PROFILE ='SET_PROFILE';
-const SET_STATUS ='SET_STATUS';
+const UPD_NEW_POST_MESSAGE = 'UPD-NEW-POST-MESSAGE';
+const SET_PROFILE = 'SET_PROFILE';
+const SET_STATUS = 'SET_STATUS';
+const SET_PHOTO = 'SET_PHOTO';
 
 let internalState = {
     posts: [
@@ -20,7 +21,7 @@ let internalState = {
     status: ''
 }
 
-export const profileReducer = (state: PostDataTypes = internalState , action: any) => {
+export const profileReducer = (state: PostDataTypes = internalState, action: any) => {
     switch (action.type) {
         case ADD_POST: {
             let newPost: PostType = {
@@ -28,19 +29,23 @@ export const profileReducer = (state: PostDataTypes = internalState , action: an
                 text: action.newPost,
                 like: 0
             }
-            return  {...state,
-                posts : [...state.posts, newPost]
+            return {
+                ...state,
+                posts: [...state.posts, newPost]
             }
 
         }
         case UPD_NEW_POST_MESSAGE:
-            return  {...state,
+            return {
+                ...state,
                 newPostText: action.newText
             }
         case SET_PROFILE:
             return {...state, profile: action.profile}
         case SET_STATUS:
             return {...state, status: action.status}
+        case SET_PHOTO:
+            return {...state, profile: {...state.profile, photos: action.photo}}
 
         default:
             return state
@@ -49,7 +54,7 @@ export const profileReducer = (state: PostDataTypes = internalState , action: an
 
 export const getProfile = (userId: number) => (dispatch: any) => {
     if (!userId) {
-        userId=2
+        userId = 7634
     }
     ProfileAPI.getProfile(userId).then(data =>
         dispatch(setProfile(data)))
@@ -57,19 +62,31 @@ export const getProfile = (userId: number) => (dispatch: any) => {
 
 export const getProfileStatus = (userId: number) => (dispatch: any) => {
 
-    ProfileAPI.getProfileStatus(userId).then(data =>{
-        dispatch(setProfileStatus(data))})
+    ProfileAPI.getProfileStatus(userId).then(data => {
+        dispatch(setProfileStatus(data))
+    })
 }
 export const updateProfileStatus = (status: string) => (dispatch: any) => {
 
     ProfileAPI.updateProfileStatus(status)
         .then(response => {
-            if (response.data.resultCode === 0){
-        dispatch(setProfileStatus(status))}})
+            if (response.data.resultCode === 0) {
+                dispatch(setProfileStatus(status))
+            }
+        })
+}
+
+export const updateProfilePhoto = (photo: any) => (dispatch: any) => {
+
+    ProfileAPI.updateProfilePhoto(photo).then(response => {
+        if (response.resultCode === 0) {
+            dispatch(setProfilePhoto(response.data.photos))
+        }
+    })
 }
 
 export const actionCreatorAddPost = (newPost: string) => ({type: ADD_POST, newPost})
 export const setProfile = (profile: ProfileType) => ({type: SET_PROFILE, profile})
-export const setProfileStatus = (status:string) => ({type: SET_STATUS, status})
-
-export const actionCreatorOnPostChange = (text: string | undefined) => ({type:UPD_NEW_POST_MESSAGE, newText: text})
+export const setProfileStatus = (status: string) => ({type: SET_STATUS, status})
+export const setProfilePhoto = (photo: any) => ({type: SET_PHOTO, photo})
+export const actionCreatorOnPostChange = (text: string | undefined) => ({type: UPD_NEW_POST_MESSAGE, newText: text})

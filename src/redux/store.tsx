@@ -30,6 +30,7 @@ export type DialogsType = {
 export type PostDataTypes = {
     posts: Array<PostType>
     newPostText: string
+    profile: any
 }
 
 export type DialogsDataTypes = {

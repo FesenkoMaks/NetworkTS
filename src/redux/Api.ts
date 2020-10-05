@@ -23,13 +23,21 @@ export const LoginAPI = {
             .then(response => response.data)
     },
 
-    login(email: string, password: string, rememberMe: boolean = false) {
-        return instance.post(`/auth/login`, {email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean = false, captcha?: string) {
+        debugger
+        return instance.post(`/auth/login`, {email, password, rememberMe, captcha})
             .then(response => response.data)
     },
 
     loginout() {
         return instance.delete(`/auth/login`)
+            .then(response => response.data)
+    },
+}
+
+export const SecurityAPI = {
+    getCaptchaUrl(){
+        return instance.get(`/security/get-captcha-url`)
             .then(response => response.data)
     }
 }
@@ -49,19 +57,32 @@ export const FollowAPI = {
 
 export const ProfileAPI = {
     getProfile(userId: number) {
-        return instance.get(`profile/${userId}`).then(response => response.data);
+        return instance.get(`profile/${userId}`)
+            .then(response => response.data);
     },
 
     getProfileStatus(userId: number) {
 
-        return instance.get(`profile/status/${userId}`).then(response => {
+        return instance.get(`profile/status/${userId}`)
+            .then(response => {
             return response.data
         });
     },
 
     updateProfileStatus(status: string) {
-        return instance.put(`profile/status`, {status: status}).then(response => response.data);
-        ;
+        return instance.put(`profile/status`, {status: status})
+            .then(response => response.data);
+    },
+
+    updateProfilePhoto(photo: any) {
+        const formData = new FormData()
+        formData.append('image', photo)
+        return instance.put(`profile/photo`, formData,{
+            headers: {
+                'Content-type' : 'multipart/form-data'
+            }
+        })
+            .then(response => response.data);
     }
 }
 
