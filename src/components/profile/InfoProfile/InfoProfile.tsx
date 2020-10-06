@@ -12,6 +12,7 @@ type PropsType = {
 }
 
 function InfoProfile(props: PropsType) {
+    debugger
     const saveFile = (events: any) => {
         if (events.target.files.length){
             props.updateProfilePhoto(events.target.files[0])
@@ -25,12 +26,11 @@ function InfoProfile(props: PropsType) {
             <div>
                 <InfoProfilePicture/>
                 <div className={s.container}>
-                    <img src={props.profile.photos.small ? props.profile.photos.small : Avatar}/>
+                    <img src={props.profile.photos.large ? props.profile.photos.large : Avatar}/>
                     {!props.itsMe? <input type="file" onChange={saveFile}/> : ''}
                     <div className={s.infa}>
                         <div className={s.item}>{props.profile.fullName}</div>
                         <div className={s.item}>{props.profile.lookingForAJobDescription}</div>
-                        <div className={s.item}>{props.profile.aboutMe}</div>
                         <div className={s.item}>{props.profile.contacts.website}</div>
                     </div>
                 </div>

@@ -1,9 +1,12 @@
 import {LoginAPI, SecurityAPI, UsersAPI} from "./Api";
 import {stopSubmit} from "redux-form";
 
+//const
 
 const SET_USER_DATA = 'SET_USER_DATA'
 const SET_CAPTCHA_URL = 'SET_CAPTCHA_URL'
+
+//type
 
 export type DataType = {
     id: number | null
@@ -13,6 +16,12 @@ export type DataType = {
     captchaURL: any
 }
 
+type setUserDataType = ReturnType<typeof setUserData>
+
+type ActionType = setUserDataType
+
+//initial state
+
 let internalState = {
     id: null,
     email: null,
@@ -21,8 +30,9 @@ let internalState = {
     captchaURL: null
 }
 
-export const authReducer = (state: DataType = internalState , action: any) => {
-    debugger
+//reducer
+
+export const authReducer = (state: DataType = internalState , action: ActionType) => {
     switch (action.type) {
         case SET_USER_DATA:
         case SET_CAPTCHA_URL: {
@@ -36,14 +46,17 @@ export const authReducer = (state: DataType = internalState , action: any) => {
     }
 }
 
+//AC
 
 export const setCaptchaURL = (captchaURL: string) => ({type: SET_CAPTCHA_URL, payload: {captchaURL}})
+
+//thunk
 
 export const getAuth = () => (dispatch: any) => {
    return  LoginAPI.getAuthMe().then(data => {
         if(data.resultCode === 0) {
             let {id, email, login} = data.data
-            dispatch(setUserData(id, email, login, true))
+            dispatch(setUserData(id, true, email, login))
         }
     });
 }
@@ -51,12 +64,10 @@ export const getAuth = () => (dispatch: any) => {
 export const login = (email: string, password: string, rememberMe: boolean = false, captcha: string) => (dispatch: any) => {
     LoginAPI.login(email, password, rememberMe, captcha).then(data => {
         if(data.resultCode === 0) {
-            let {id, email, login} = data.data
-            dispatch(setUserData(id, email, login, true))
+            let id = data.data.userId
+            dispatch(setUserData(id,true))
         } if (data.resultCode === 10){
-            debugger
             SecurityAPI.getCaptchaUrl().then(data => {
-                debugger
                 dispatch(setCaptchaURL(data.url))
             })
         } else {
@@ -73,10 +84,11 @@ export const login = (email: string, password: string, rememberMe: boolean = fal
 export const loginOut = () => (dispatch: any) => {
     LoginAPI.loginout().then(data => {
         if(data.resultCode === 0) {
-            dispatch(setUserData(null, null, null, false))
+            dispatch(setUserData(null, false, null, null))
         }
     });
 }
 
-export const setUserData = (id: any, email: any, login: any, isAuth: any) => ({type: SET_USER_DATA, payload: {id, email, login, isAuth}})
+//AC
 
+export const setUserData = (id: number | null, isAuth: boolean, email?: string | null, login?: string | null) => ({type: SET_USER_DATA, payload: {id, isAuth, email, login}})

@@ -23,7 +23,6 @@ export type ProfileType = {
     lookingForAJobDescription: string | null
     fullName: string
     contacts: ContactsType
-    aboutMe: string | null
     photos: PhotosType
 
 }
@@ -55,12 +54,10 @@ class ProfileContainer extends React.PureComponent<ProfileContainerPropsType & R
         this.props.getProfileStatus(userId);
     }
     componentDidMount() {
-        debugger
         this.refreshComponent()
     }
 
     componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType & RouteComponentProps<{ userId: any }>>, prevState: Readonly<{}>, snapshot?: any) {
-        debugger
         if (this.props.match.params.userId != prevProps.match.params.userId){
             this.refreshComponent()
         }
@@ -79,8 +76,9 @@ class ProfileContainer extends React.PureComponent<ProfileContainerPropsType & R
 }
 
 let mapStateToProps = (state: any) => {
+    debugger
     return {
-        profile: state.myPostsPage.profile,
+        profile: state.profile,
         isAuth: state.auth.isAuth,
         getUserId: state.auth.id,
         status: state.myPostsPage.status

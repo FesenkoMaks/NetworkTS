@@ -1,4 +1,25 @@
 import * as axios from "axios";
+import {PhotosType, UsersType} from "./Users-reducer";
+import {ProfileType} from "../components/profile/ProfileContainer";
+
+type ResponseType<T> = {
+    data: T
+    resultCode: number
+    messages: Array<string>
+}
+
+type LoginGetResponseType = {
+    id: number
+    email: string
+    login: string
+}
+
+type ResponseUsersType = {
+    items: UsersType
+    totalCount: number
+    error: string
+}
+
 
 let instance = axios.default.create({
     withCredentials: true,
@@ -11,7 +32,7 @@ let instance = axios.default.create({
 
 export const UsersAPI = {
     getUsers(currentPage: number, pageSize: number) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
+        return instance.get<ResponseUsersType>(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data)
     }
 }
@@ -19,25 +40,24 @@ export const UsersAPI = {
 
 export const LoginAPI = {
     getAuthMe() {
-        return instance.get(`auth/me`)
+        return instance.get<ResponseType<LoginGetResponseType>>(`auth/me`)
             .then(response => response.data)
     },
 
     login(email: string, password: string, rememberMe: boolean = false, captcha?: string) {
-        debugger
-        return instance.post(`/auth/login`, {email, password, rememberMe, captcha})
+        return instance.post<ResponseType<{ userId: number }>>(`/auth/login`, {email, password, rememberMe, captcha})
             .then(response => response.data)
     },
 
     loginout() {
-        return instance.delete(`/auth/login`)
+        return instance.delete<ResponseType<{}>>(`/auth/login`)
             .then(response => response.data)
     },
 }
 
 export const SecurityAPI = {
     getCaptchaUrl(){
-        return instance.get(`/security/get-captcha-url`)
+        return instance.get<{url: string}>(`/security/get-captcha-url`)
             .then(response => response.data)
     }
 }
@@ -45,19 +65,19 @@ export const SecurityAPI = {
 
 export const FollowAPI = {
     unFollowDel(userId: number) {
-        return instance.delete(`follow/${userId}`)
+        return instance.delete<ResponseType<{}>>(`follow/${userId}`)
             .then(response => response.data)
     },
 
     followPost(userId: number) {
-        return instance.post(`follow/${userId}`)
+        return instance.post<ResponseType<{}>>(`follow/${userId}`)
             .then(response => response.data)
     }
 }
 
 export const ProfileAPI = {
     getProfile(userId: number) {
-        return instance.get(`profile/${userId}`)
+        return instance.get<ProfileType>(`profile/${userId}`)
             .then(response => response.data);
     },
 
@@ -70,14 +90,14 @@ export const ProfileAPI = {
     },
 
     updateProfileStatus(status: string) {
-        return instance.put(`profile/status`, {status: status})
+        return instance.put<ResponseType<{}>>(`profile/status`, {status: status})
             .then(response => response.data);
     },
 
     updateProfilePhoto(photo: any) {
         const formData = new FormData()
         formData.append('image', photo)
-        return instance.put(`profile/photo`, formData,{
+        return instance.put<ResponseType<PhotosType>>(`profile/photo`, formData,{
             headers: {
                 'Content-type' : 'multipart/form-data'
             }

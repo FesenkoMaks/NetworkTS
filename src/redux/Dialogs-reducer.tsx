@@ -1,8 +1,16 @@
 import {DialogsDataTypes, MessageType} from "./store";
 
+//const
 
 const ADD_MESSAGE = 'ADD-MESSAGE'
-const UPD_NEW_MESSAGE ='UPD-NEW-MESSAGE'
+const UPD_NEW_MESSAGE = 'UPD-NEW-MESSAGE'
+
+//type
+
+type actionCreatorAddNewMessageType = ReturnType<typeof actionCreatorAddNewMessage>
+type ActionType = actionCreatorAddNewMessageType
+
+//initial state
 
 let initialState = {
     messageData: [
@@ -21,23 +29,21 @@ let initialState = {
     ]
 }
 
-export const dialogsReducer = (state: DialogsDataTypes = initialState, action: any) => {
+//reducer
+
+export const dialogsReducer = (state: DialogsDataTypes = initialState, action: ActionType) => {
     switch (action.type) {
         case ADD_MESSAGE: {
             let newMessage: MessageType = {
                 id: 7,
                 message: action.messageText,
             }
-            return  {...state,
+            return {
+                ...state,
                 messageData: [...state.messageData, newMessage],
                 newMessageText: ''
             }
-            
         }
-        case UPD_NEW_MESSAGE:
-            return  {...state,
-                newMessageText: action.newTextMessage
-            }
 
         default:
             return state
@@ -46,5 +52,7 @@ export const dialogsReducer = (state: DialogsDataTypes = initialState, action: a
     }
 }
 
-    export const actionCreatorAddNewMessage = (messageText: string) => ({type: ADD_MESSAGE, messageText})
+//AC
+
+export const actionCreatorAddNewMessage = (messageText: string) => ({type: ADD_MESSAGE, messageText})
 

@@ -18,7 +18,12 @@ let internalState = {
     ],
     newPostText: '',
     profile: null,
-    status: ''
+    status: '',
+    photos: {
+        small: null,
+        large: null
+    }
+
 }
 
 export const profileReducer = (state: PostDataTypes = internalState, action: any) => {
@@ -66,11 +71,11 @@ export const getProfileStatus = (userId: number) => (dispatch: any) => {
         dispatch(setProfileStatus(data))
     })
 }
-export const updateProfileStatus = (status: string) => (dispatch: any) => {
 
+export const updateProfileStatus = (status: string) => (dispatch: any) => {
     ProfileAPI.updateProfileStatus(status)
         .then(response => {
-            if (response.data.resultCode === 0) {
+            if (response.resultCode === 0) {
                 dispatch(setProfileStatus(status))
             }
         })
@@ -80,7 +85,7 @@ export const updateProfilePhoto = (photo: any) => (dispatch: any) => {
 
     ProfileAPI.updateProfilePhoto(photo).then(response => {
         if (response.resultCode === 0) {
-            dispatch(setProfilePhoto(response.data.photos))
+            dispatch(setProfilePhoto(response.data.large))
         }
     })
 }

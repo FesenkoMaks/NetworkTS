@@ -2,6 +2,8 @@ import {PostDataTypes, PostType} from "./store";
 import React from "react";
 import {FollowAPI, UsersAPI} from "./Api";
 
+//type
+
 export type PhotosType = {
     small: string | undefined
     large: string | undefined
@@ -15,6 +17,27 @@ export type UsersType = {
     followed: boolean
 }
 
+type followUserType = ReturnType<typeof followUser>
+type unFollowUserType = ReturnType<typeof unFollowUser>
+type setUsersType = ReturnType<typeof setUsers>
+type setCurrentPageType = ReturnType<typeof setCurrentPage>
+type setUsersTotalCountType = ReturnType<typeof setUsersTotalCount>
+type setIsFetchingType = ReturnType<typeof setIsFetching>
+type setIsDisabledType = ReturnType<typeof setIsDisabled>
+
+type ActionType =
+    followUserType
+    | unFollowUserType
+    | setUsersType
+    | setCurrentPageType
+    | setUsersTotalCountType
+    | setIsFetchingType
+    | setIsDisabledType
+    | any
+
+
+//const
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET_USERS'
@@ -22,6 +45,8 @@ const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const SET_IS_FETCHING = 'SET_IS_FETCHING'
 const SET_IS_DISABLED = 'SET_IS_DISABLED'
+
+//initial state
 
 let internalState = {
     users: [],
@@ -32,11 +57,12 @@ let internalState = {
     isDisabled: []
 }
 
-export const usersReducer = (state: any = internalState, action: any) => {
+//reducer
+
+export const usersReducer = (state: any = internalState, action: ActionType) => {
     switch (action.type) {
         case FOLLOW:
             return {
-
                 ...state,
                 users: [...state.users.map((u: UsersType) => {
                         if (u.id === action.userId) {
@@ -70,17 +96,17 @@ export const usersReducer = (state: any = internalState, action: any) => {
             return {...state, isFetching: action.isFetching}
         }
         case SET_IS_DISABLED: {
-
             return {...state,
                 isDisabled: action.isDisabled
                     ? [...state.isDisabled, action.userId]
-                    : state.isDisabled.filter((id:any) => id != action.userId)}
+                    : state.isDisabled.filter((id: number) => id != action.userId)}
         }
-
         default:
             return state
     }
 }
+
+//thunk
 
 export const getUsers = (currentPage:number, pageSize:number) => (dispatch: any) => {
     dispatch(setIsFetching(true));
@@ -90,17 +116,17 @@ export const getUsers = (currentPage:number, pageSize:number) => (dispatch: any)
         dispatch(setUsersTotalCount(data.totalCount));
     });
 }
-export const unFollow = (userId: any) => (dispatch: any) => {
+
+export const unFollow = (userId: number) => (dispatch: any) => {
     dispatch(setIsDisabled(true, userId))
     FollowAPI.unFollowDel(userId).then(data => {
         if (data.resultCode === 0) {
             dispatch(unFollowUser(userId))
             dispatch(setIsDisabled(false, userId))
         }
-
     })
 }
-export const follow = (userId: any) => (dispatch: any) => {
+export const follow = (userId: number) => (dispatch: any) => {
     dispatch(setIsDisabled(true, userId))
     FollowAPI.followPost(userId).then(data => {
         if (data.resultCode === 0) {
@@ -111,9 +137,9 @@ export const follow = (userId: any) => (dispatch: any) => {
     })
 }
 
+//AC
 
 export const followUser = (userId: number) => ({type: FOLLOW, userId})
-
 export const unFollowUser = (userId: number) => ({type: UNFOLLOW, userId})
 export const setUsers = (users: UsersType) => ({type: SET_USERS, users})
 export const setCurrentPage = (currentPage: number) => ({type: SET_CURRENT_PAGE, currentPage})
