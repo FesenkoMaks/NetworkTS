@@ -5,6 +5,9 @@ import {PhotosType} from "../../redux/Users-reducer";
 import {getProfile, getProfileStatus, updateProfilePhoto, updateProfileStatus} from "../../redux/Profile-reducer";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import {compose} from "redux";
+import {AppRootStateType} from "../../redux/redux-store";
+
+//type
 
 type ContactsType = {
     github: string | null
@@ -27,8 +30,6 @@ export type ProfileType = {
 
 }
 
-
-
 export type ProfileContainerPropsType = {
     itsMe: boolean
     getUserId: number
@@ -39,9 +40,9 @@ export type ProfileContainerPropsType = {
     getProfileStatus: (userId: number) => void
     updateProfileStatus: (status: string) => void
     updateProfilePhoto: (photo: any) => void
-
 }
 
+//Component
 
 class ProfileContainer extends React.PureComponent<ProfileContainerPropsType & RouteComponentProps<{userId: any}>> {
     refreshComponent(){
@@ -56,7 +57,6 @@ class ProfileContainer extends React.PureComponent<ProfileContainerPropsType & R
     componentDidMount() {
         this.refreshComponent()
     }
-
     componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType & RouteComponentProps<{ userId: any }>>, prevState: Readonly<{}>, snapshot?: any) {
         if (this.props.match.params.userId != prevProps.match.params.userId){
             this.refreshComponent()
@@ -64,7 +64,6 @@ class ProfileContainer extends React.PureComponent<ProfileContainerPropsType & R
     }
 
     render() {
-
         return <Profile {...this.props}
                         itsMe={!!this.props.match.params.userId}
                         profile={this.props.profile}
@@ -75,10 +74,9 @@ class ProfileContainer extends React.PureComponent<ProfileContainerPropsType & R
     }
 }
 
-let mapStateToProps = (state: any) => {
-    debugger
+let mapStateToProps = (state: AppRootStateType | any) => {
     return {
-        profile: state.profile,
+        profile: state.myPostsPage.profile,
         isAuth: state.auth.isAuth,
         getUserId: state.auth.id,
         status: state.myPostsPage.status

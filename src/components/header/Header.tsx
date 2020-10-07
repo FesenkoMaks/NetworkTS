@@ -1,7 +1,6 @@
-import React, {ReactNode} from "react";
+import React from "react";
 import './Header.css';
 import {NavLink} from "react-router-dom";
-import {DataType} from "../../redux/Auth-reducer";
 
 export type DataPropsType = {
     getAuth: () => void

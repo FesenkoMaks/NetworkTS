@@ -8,18 +8,17 @@ import thunkMiddleware from "redux-thunk";
 import {appReducer} from "./App-reducer";
 
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     "myPostsPage" : profileReducer,
     "dialogsPage" : dialogsReducer,
     "usersPage": usersReducer,
     "auth": authReducer,
     "form": formReducer,
-    "profile": profileReducer,
     "app": appReducer
 })
 
-let store = createStore(reducers, applyMiddleware(thunkMiddleware));
+let store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
-
+export type AppRootStateType = ReturnType<typeof rootReducer>
 
 export default  store;

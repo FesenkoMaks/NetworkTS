@@ -12,6 +12,9 @@ import {
     getTotalUserCountSelector,
     getUsersSuperSelector
 } from "../../redux/User-selector";
+import {AppRootStateType} from "../../redux/redux-store";
+
+//type
 
 type PropsType = {
     users: Array<UsersType>,
@@ -26,9 +29,6 @@ type PropsType = {
     unFollow: (numberPage: number) => void
 }
 
-
-
-
 class UsersAPIComponent extends React.Component<PropsType>{
     componentDidMount() {
         this.props.getUsers(this.props.currentPage, this.props.pageSize)
@@ -38,7 +38,6 @@ class UsersAPIComponent extends React.Component<PropsType>{
         this.props.getUsers(pageNumber, this.props.pageSize)
         this.props.setCurrentPage(pageNumber)
     }
-
 
     render() {
         return <Users totalUserCount={this.props.totalUserCount}
@@ -50,13 +49,11 @@ class UsersAPIComponent extends React.Component<PropsType>{
                       isDisabled={this.props.isDisabled}
                       follow={this.props.follow}
                       unFollow={this.props.unFollow}
-
         />
-
     }
 }
 
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: AppRootStateType) => {
     return {
         users: getUsersSuperSelector(state),
         pageSize: getPageSizeSelector(state),

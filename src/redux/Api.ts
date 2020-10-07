@@ -77,6 +77,7 @@ export const FollowAPI = {
 
 export const ProfileAPI = {
     getProfile(userId: number) {
+        debugger
         return instance.get<ProfileType>(`profile/${userId}`)
             .then(response => response.data);
     },
@@ -97,12 +98,12 @@ export const ProfileAPI = {
     updateProfilePhoto(photo: any) {
         const formData = new FormData()
         formData.append('image', photo)
-        return instance.put<ResponseType<PhotosType>>(`profile/photo`, formData,{
+        return instance.put<ResponseType<{photos: PhotosType}>>(`profile/photo`, formData,{
             headers: {
                 'Content-type' : 'multipart/form-data'
             }
         })
-            .then(response => response.data);
+            .then(response => response.data)
     }
 }
 

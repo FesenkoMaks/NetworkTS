@@ -8,12 +8,12 @@ const SET_CAPTCHA_URL = 'SET_CAPTCHA_URL'
 
 //type
 
-export type DataType = {
+export type initialStateType = {
     id: number | null
     email: string | null
     login: string | null
     isAuth : boolean
-    captchaURL: any
+    captchaURL: null | string
 }
 
 type setUserDataType = ReturnType<typeof setUserData>
@@ -32,7 +32,7 @@ let internalState = {
 
 //reducer
 
-export const authReducer = (state: DataType = internalState , action: ActionType) => {
+export const authReducer = (state: initialStateType = internalState , action: ActionType) => {
     switch (action.type) {
         case SET_USER_DATA:
         case SET_CAPTCHA_URL: {

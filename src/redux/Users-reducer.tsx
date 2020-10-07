@@ -1,4 +1,3 @@
-import {PostDataTypes, PostType} from "./store";
 import React from "react";
 import {FollowAPI, UsersAPI} from "./Api";
 

@@ -6,7 +6,7 @@ const SET_INITIALIZED = 'SET_INITIALIZED'
 
 //type
 
-export type DataType = {
+export type initialStateType = {
     initialized: boolean
 }
 
@@ -22,7 +22,7 @@ let internalState = {
 
 //reducer
 
-export const appReducer = (state: DataType = internalState , action: ActionType) => {
+export const appReducer = (state: initialStateType = internalState , action: ActionType) => {
     switch (action.type) {
         case SET_INITIALIZED: {
             return {

@@ -1,38 +1,28 @@
 import {createSelector} from "reselect"
+import {AppRootStateType} from "./redux-store";
+import {UsersType} from "./Users-reducer";
 
-let mapStateToProps = (state: any) => {
-    return {
 
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUserCount: state.usersPage.totalUserCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        isDisabled: state.usersPage.isDisabled,
-
-    }
-}
-
-const getUsersSelector = (state: any) => {
+const getUsersSelector = (state: AppRootStateType) => {
     return state.usersPage.users
 }
 
 export const getUsersSuperSelector = createSelector(getUsersSelector ,(users)=>{
-    return users.filter( (u: any) => true)
+    return users.filter( (u: UsersType) => true)
 })
 
-export  const getPageSizeSelector = (state: any) => {
+export  const getPageSizeSelector = (state: AppRootStateType) => {
     return state.usersPage.pageSize
 }
-export  const getTotalUserCountSelector = (state: any) => {
+export  const getTotalUserCountSelector = (state: AppRootStateType) => {
     return state.usersPage.totalUserCount
 }
-export  const getCurrentPageSelector = (state: any) => {
+export  const getCurrentPageSelector = (state: AppRootStateType) => {
     return state.usersPage.currentPage
 }
-export  const getIsFetchingSelector = (state: any) => {
+export  const getIsFetchingSelector = (state: AppRootStateType) => {
     return state.usersPage.isFetching
 }
-export  const getIsDisabledSelector = (state: any) => {
+export  const getIsDisabledSelector = (state: AppRootStateType) => {
     return state.usersPage.isDisabled
 }

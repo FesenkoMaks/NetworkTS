@@ -1,4 +1,4 @@
-import {PostDataTypes, PostType} from "./store";
+import {PostType} from "./store";
 import {ProfileType} from "../components/profile/ProfileContainer";
 import {ProfileAPI} from "./Api";
 
@@ -7,6 +7,14 @@ const UPD_NEW_POST_MESSAGE = 'UPD-NEW-POST-MESSAGE';
 const SET_PROFILE = 'SET_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const SET_PHOTO = 'SET_PHOTO';
+
+
+export type InitialStateType = {
+    posts: Array<PostType>
+    newPostText: string
+    profile: any
+    status: string
+}
 
 let internalState = {
     posts: [
@@ -18,15 +26,10 @@ let internalState = {
     ],
     newPostText: '',
     profile: null,
-    status: '',
-    photos: {
-        small: null,
-        large: null
-    }
-
+    status: ''
 }
 
-export const profileReducer = (state: PostDataTypes = internalState, action: any) => {
+export const profileReducer = (state: InitialStateType = internalState, action: any) => {
     switch (action.type) {
         case ADD_POST: {
             let newPost: PostType = {
@@ -50,7 +53,7 @@ export const profileReducer = (state: PostDataTypes = internalState, action: any
         case SET_STATUS:
             return {...state, status: action.status}
         case SET_PHOTO:
-            return {...state, profile: {...state.profile, photos: action.photo}}
+            return {...state, profile: {...state.profile, photos: {...state.profile.photos, large: action.photo}}}
 
         default:
             return state
@@ -82,10 +85,10 @@ export const updateProfileStatus = (status: string) => (dispatch: any) => {
 }
 
 export const updateProfilePhoto = (photo: any) => (dispatch: any) => {
-
     ProfileAPI.updateProfilePhoto(photo).then(response => {
+        debugger
         if (response.resultCode === 0) {
-            dispatch(setProfilePhoto(response.data.large))
+            dispatch(setProfilePhoto(response.data.photos.large))
         }
     })
 }
@@ -94,4 +97,3 @@ export const actionCreatorAddPost = (newPost: string) => ({type: ADD_POST, newPo
 export const setProfile = (profile: ProfileType) => ({type: SET_PROFILE, profile})
 export const setProfileStatus = (status: string) => ({type: SET_STATUS, status})
 export const setProfilePhoto = (photo: any) => ({type: SET_PHOTO, photo})
-export const actionCreatorOnPostChange = (text: string | undefined) => ({type: UPD_NEW_POST_MESSAGE, newText: text})
